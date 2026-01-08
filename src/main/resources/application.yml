@@ -3,56 +3,41 @@
 # SPDX-License-Identifier: MIT
 
 server:
-  port: 8290
+  port: 8080
+
+jeap:
+  monitor:
+    prometheus:
+      password: "{noop}${MONITORING_BASIC_AUTH_PASSWORD}"
+      user: "${MONITORING_BASIC_AUTH_USERNAME}"
+  swagger:
+    status: OPEN
+  rest:
+    tracing:
+      uri-filter-pattern: .*/actuator/.*
+      full-response-details-in-message: false
 
 spring:
   application:
-    name: status-registry-data-service
-  flyway:
-    enabled: false
+    name: swiyu-registry-status-data-service
   datasource:
     hikari:
       schema: ${spring.jpa.properties.hibernate.default_schema}
   jpa:
-    defer-datasource-initialization: true
     properties:
       hibernate:
         default_schema: data
         ddl-auto: validate
+    open-in-view: false
+
 springdoc:
-  api-docs:
-    path: /api-docs
-    enabled: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
   swagger-ui:
-    path: /swagger-ui.html
-    enabled: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
-  show-actuator: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
+    oauth:
+      client-id: ${spring.application.name}
+    try-it-out-enabled: true
 
 logging:
   level:
-    org:
-      springframework:
-        security: DEBUG
-
-management:
-  endpoint:
-    health:
-      enabled: true
-      probes:
-        enabled: true
-  health:
-    livenessState:
-      enabled: true
-    readinessState:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health, info, prometheus
-
-
-monitoring:
-  basic-auth:
-    enabled: ${MONITORING_BASIC_AUTH_ENABLED:false}
-    username: "${MONITORING_BASIC_AUTH_USERNAME:}"
-    password: "${MONITORING_BASIC_AUTH_PASSWORD:}"
+    ch.admin.bit.jeap: INFO
+    ch.admin.bit.jeap.log.RestRequestTracer: DEBUG
+    ch.admin.bj.swiyu: INFO

@@ -22,6 +22,5 @@ spring:
     default-schema: ${spring.jpa.properties.hibernate.default_schema}
     locations:
       - classpath:db/migration/common
-    depends-on: entityManagerFactory
   main:
     allow-circular-references: true

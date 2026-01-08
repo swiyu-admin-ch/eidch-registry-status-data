@@ -5,7 +5,7 @@
 
 services:
   postgres:
-    image: postgres:15.8-alpine
+    image: postgres:15.15-alpine
     hostname: localhost
     environment:
       POSTGRES_USER: "postgres"

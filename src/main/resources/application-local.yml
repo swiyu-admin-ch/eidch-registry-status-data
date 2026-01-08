@@ -2,19 +2,24 @@
 #
 # SPDX-License-Identifier: MIT
 
-spring:
+server:
+  port: 8290 # dedicated within swiyu to avoid conflicts
 
+spring:
   datasource:
     url: "jdbc:postgresql://localhost:5290/status-registry-db"
     username: "postgres"
     password: "secret"
-
   jpa:
     properties:
       hibernate:
         ddl-auto: create
-
   docker:
     compose:
       enabled: true
       file: compose.yml
+
+logging:
+  level:
+    ch.admin.bit.jeap: DEBUG
+    ch.admin.bj.swiyu: DEBUG
